@@ -60,14 +60,12 @@ const createProduct = async (req, res) => {
       postBy,
     });
 
-    console.log("created", product);
     return res.status(201).send({
       status: "success",
       msg: "product posted successfully",
       data: product,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       status: "error",
       msg: "something went wrong",
@@ -77,7 +75,6 @@ const createProduct = async (req, res) => {
 
 const getAllProduct = async (req, res) => {
   // console.log(req.headers?.authorization);
-  console.log(req.userId);
 
   const product = await Product.find({}).populate("postBy").exec();
   if (product) {
@@ -109,10 +106,55 @@ const getSingleProduct = async (req, res) => {
   console.log(req.param);
 };
 const editProduct = async (req, res) => {
-  const { productId } = req.body;
+  const productId = req.params.id;
+  const { productStock, productPricePerkg, productDescription } = req.body;
+
+  const product = await Product.updateOne(
+    {
+      _id: productId,
+    },
+    {
+      $set: {
+        productDescription: productDescription,
+        productStock: Number(productStock),
+        productPricePerkg: Number(productPricePerkg),
+      },
+    }
+  );
+  if (product.modifiedCount > 0) {
+    return res
+      .status(200)
+      .send({ status: "ok", msg: "product edited successfully" });
+  } else {
+    return res
+      .status(400)
+      .send({ status: "error", msg: "something went wrong" });
+  }
+
+  // if (userId != product.postBy._id) {
+  //   return res
+  //     .status(400)
+  //     .send({ status: "error", msg: "You aren't authorised to edit this product" });
+  // }else {
+  //   console.log("edit")
+  // }
 };
 const deleteProduct = async (req, res) => {
-  const { productId } = req.body;
+  const productId = req.params.id;
+
+  const product = await Product.deleteOne({
+    _id: productId,
+  });
+
+  if (product.deletedCount > 0) {
+    return res
+      .status(200)
+      .send({ status: "ok", msg: "product deleted successfully" });
+  } else {
+    return res
+      .status(400)
+      .send({ status: "error", msg: "something went wrong" });
+  }
 };
 
 module.exports = {

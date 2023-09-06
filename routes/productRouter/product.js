@@ -17,8 +17,8 @@ const { verifyJwt } = require("../../middlewares/VerifyAccount");
 
 router.post("/create", upload.single("productImage"), verifyJwt, createProduct);
 router.get("/my-product", verifyJwt, getFarmersProduct);
-router.delete("/delete/:id", deleteProduct);
-router.patch("/edit/:id", editProduct);
+router.delete("/delete/:id", verifyJwt, deleteProduct);
+router.patch("/edit/:id", verifyJwt, editProduct);
 router.get("/get/:id", getSingleProduct);
 router.get("/get-all", verifyJwt, getAllProduct);
 // router.get("/get-all", getAllProduct);
