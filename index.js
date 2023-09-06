@@ -16,7 +16,8 @@ connectDb();
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: "https://farm-app1.netlify.app/",
   })
 );
 app.use(cookieParser());
