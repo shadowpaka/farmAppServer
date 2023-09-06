@@ -13,14 +13,14 @@ const PORT = process.env.PORT || 5000;
 
 require("dotenv").config();
 connectDb();
-app.use(cors());
-// app.use(
-//   cors({
-//     credentials: true,
-//     // origin: "http://localhost:3000",
-//     origin: "https://farm-app1.netlify.app/",
-//   })
-// );
+// app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    // origin: "http://localhost:3000",
+    origin: "https://farm-app1.netlify.app",
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
