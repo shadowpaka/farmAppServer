@@ -5,10 +5,10 @@ const Farmer = require("../models/Farmers");
 
 const verifyJwt = (req, res, next) => {
   // console.log(req.cookie, req.cookies);
-  // let cookieBea = req.headers?.authorization;
-  // const cookie = cookieBea.split(" ")[1];
-  // console.log(cookie);
-  const cookie = req.cookies?.jwt;
+  let cookieBearer = req.headers?.authorization || req.headers?.Authorization;
+  const cookie = cookieBearer?.split(" ")[1];
+  // console.log("very", cookieBearer);
+  // const cookie = req.cookies?.jwt;
   if (cookie) {
     const decode = jwt.verify(cookie, process.env.ACCESS_TOKEN_JWT_SECRET);
     if (decode) {

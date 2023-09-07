@@ -74,8 +74,6 @@ const createProduct = async (req, res) => {
 };
 
 const getAllProduct = async (req, res) => {
-  // console.log(req.headers?.authorization);
-
   const product = await Product.find({}).populate("postBy").exec();
   if (product) {
     return res

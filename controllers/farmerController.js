@@ -214,7 +214,6 @@ const loginUser = async (req, res) => {
   }
 };
 const getProfile = async (req, res) => {
-  console.log(req.userId);
   const userId = req.userId;
   if (userId) {
     const user = await User.findById(userId).select("-password");
@@ -225,13 +224,22 @@ const getProfile = async (req, res) => {
 };
 
 const logOut = (req, res) => {
-  res
-    .cookie("jwt", "", {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    })
-    .send({ status: "success", msg: "logged out successfull" });
+  if (req.userId) {
+    return res
+      .status(200)
+      .send({ status: "success", msg: "logged out successfull" });
+  } else {
+    return res
+      .status(200)
+      .send({ status: "error", msg: "something went wrong" });
+  }
+  // res
+  //   .cookie("jwt", "", {
+  //     httpOnly: true,
+  //     sameSite: "none",
+  //     secure: true,
+  //   })
+  //   .send({ status: "success", msg: "logged out successfull" });
 };
 
 module.exports = {
